@@ -1,19 +1,19 @@
-import java.util.*;
+class Solution {
+    public static int fibonacci(int n) {
+        // Write your code here to calculate
+        // to calculate the nth fibonacci number
+         int a = 0, b = 1, c;
+        
+        while(n > 0)
+        {
+            c = a+b;
+            a = b;
+            b = c;
+            
+            n--;
+        }
+        
+        return a;
 
-public class Solution {
-    public static void main(String args[]) {
-        // Your Code Here
-                Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int base = 0 , current =1;
-        if(n==0){
-            System.out.println(0);
-            return;
-        }
-        while(n-- >1){
-            current = base + current;
-            base = current - base;
-        }
-        System.out.println(current);
     }
 }
