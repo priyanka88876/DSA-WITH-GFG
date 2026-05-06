@@ -1,19 +1,27 @@
 class Solution {
     public static int findEquilibrium(int arr[]) {
         // code here
-                int sum = 0;
-        int leftsum = 0;
-        for(int i= 0;i<arr.length;i++) {
-            sum += arr[i];
+          int totalSum = 0;
+        
+        // Step 1: Calculate total sum
+        for (int num : arr) {
+            totalSum += num;
         }
-        for(int i = 0;i<arr.length;i++) {
-            sum-= arr[i];
-            if(leftsum == sum ) {
-                return i;
+        
+        int leftSum = 0;
+        
+        // Step 2: Traverse array
+        for (int i = 0; i < arr.length; i++) {
+            int rightSum = totalSum - leftSum - arr[i];
+            
+            if (leftSum == rightSum) {
+                return i; // equilibrium index
             }
-            leftsum += arr[i];
+            
+            leftSum += arr[i];
         }
+        
         return -1;
-
+    
     }
 }
