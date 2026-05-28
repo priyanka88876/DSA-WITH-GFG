@@ -1,15 +1,14 @@
 class Solution {
     public void sortInWave(int arr[]) {
         // code here
-         int i=0,j=1; 
-
-        while(i<arr.length && j<arr.length)
-        {
-            int temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
-            i+=2;
-            j+=2;
-        }
+          for(int i = 0;i<arr.length;i+=2){
+            if(i==arr.length-1){
+                break;
+            }
+            int temp =arr[i];
+            arr[i]=arr[i+1];
+            arr[i+1]=temp;
+          }
+ 
     }
 }
