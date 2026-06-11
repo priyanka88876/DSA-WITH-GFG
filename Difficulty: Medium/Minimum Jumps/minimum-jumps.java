@@ -1,37 +1,21 @@
 class Solution {
     public int minJumps(int[] arr) {
         // code here
-         int n = arr.length;
-
-        if (n <= 1) return 0;
-        if (arr[0] == 0) return -1;
-
-        int jumps = 1;             
-        int maxReach = arr[0];      
-        int steps = arr[0];         
-
-        for (int i = 1; i < n; i++) {
-
-            // Reached the end
-            if (i == n - 1) {
-                return jumps;
+         int ans = 0;
+        for (int i = 0; i < arr.length - 1; ) {
+        //    System.out.printf("i (prev) : %d , ", i);
+            if(arr[i]==0) return -1;
+            else if (i == arr.length - 1) return ans;
+            else if (arr[i] + i >= arr.length - 1) return ++ans;
+            int maxIdx = i + 1;
+            for (int j = i+1; j < arr.length && j <= arr[i] + i; j++) {
+                if(arr[j] != 0 && arr[maxIdx] + maxIdx < arr[j] + j) maxIdx = j;
             }
-
-            maxReach = Math.max(maxReach, i + arr[i]);
-
-            steps--;
-
-            if (steps == 0) {
-                jumps++;
-
-                if (i >= maxReach) {
-                    return -1;
-                }
-
-                steps = maxReach - i;
-            }
+            i = maxIdx;
+            ans++;
+         //   System.out.printf("i(new) : %d , maxIdx: %d, ans: %d\n",i, maxIdx, ans);
         }
-
-        return -1;
+        return ans;
+  
     }
 }
