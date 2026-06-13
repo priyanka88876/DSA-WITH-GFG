@@ -1,43 +1,57 @@
 class Solution {
     public boolean isCycle(int V, int[][] edges) {
         // Code here
-                List<List<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i < V; i++) adj.add(new ArrayList<>());
-
-        for (int[] edge : edges) {
-            adj.get(edge[0]).add(edge[1]);
-            adj.get(edge[1]).add(edge[0]); // undirected graph
+         List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < V; i++) {
+            adj.add(new ArrayList<>());
         }
-
-        // Step 2: Track visited nodes
+        
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            adj.get(u).add(v);
+            adj.get(v).add(u); // It's an undirected graph, so the connection goes both ways!
+        }
+        
+        // --- STEP 2: The Visited Array ---
         boolean[] visited = new boolean[V];
-
-        // Step 3: Check each component via DFS
+        
+        // --- STEP 3: Handle Disconnected Components ---
+        // A graph might be broken into multiple floating pieces. 
+        // We loop through EVERY vertex to make sure we don't miss a piece.
         for (int i = 0; i < V; i++) {
             if (!visited[i]) {
-                if (dfs(i, -1, visited, adj)) {
-                    return true; // cycle detected
+                // Start a DFS. The very first node has no parent, so we pass -1
+                if (dfs(i, -1, adj, visited)) {
+                    return true; // We found a cycle in this piece of the graph!
                 }
             }
         }
-
-        return false; // no cycle in any component
+        
+        return false; // We checked every piece and found no cycles
     }
-
-    // DFS helper: returns true if cycle is found
-    private boolean dfs(int node, int parent, boolean[] visited, List<List<Integer>> adj) {
-        visited[node] = true;
-
-        for (int neighbor : adj.get(node)) {
+    
+    // --- STEP 4: The DFS Helper ---
+    private boolean dfs(int current, int parent, List<List<Integer>> adj, boolean[] visited) {
+        // Mark where we are standing as visited
+        visited[current] = true;
+        
+        // Look at all the neighbors connected to this node
+        for (int neighbor : adj.get(current)) {
+            
             if (!visited[neighbor]) {
-                if (dfs(neighbor, node, visited, adj)) return true;
-            } else if (neighbor != parent) {
-                // Visited node that's not the parent → cycle
-                return true;
+                // If it's unvisited, dive deep! 'current' becomes the new 'parent'
+                if (dfs(neighbor, current, adj, visited)) {
+                    return true; 
+                }
+            } 
+            // CRITICAL CHECK: It IS visited, AND it's NOT the node we just came from!
+            else if (neighbor != parent) {
+                return true; // Cycle detected!
             }
         }
-
+        
         return false;
-
+    
     }
 }
