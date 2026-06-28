@@ -1,35 +1,43 @@
-// User function Template for Java
-
 class Solution {
     public static ArrayList<ArrayList<Integer>> getPairs(int[] arr) {
         // code here
-          Arrays.sort(arr);
-        int n = arr.length;
-        int i=0;
-        int j=n-1;
-        int sum=0;
-       ArrayList<ArrayList<Integer>> list = new ArrayList<>();
-       while(i<j){
-          sum = arr[i]+arr[j];
-          ArrayList<Integer> pair = new ArrayList<>();
-          if(sum == 0){
-              pair.add(arr[i]);
-              pair.add(arr[j]);
-              list.add(pair);
-
-            while(i<j && arr[i]==arr[i+1]) i++;
-            while(i<j && arr[j]==arr[j-1]) j--;
-            i++;
-            j--;
-          }
-          else if(sum<0){
-              i++;
-          }else{
-              j--;
-          }
-         
-       }
-        return list;
-    
+         HashSet<Integer> st = new HashSet<>();
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        int zeroCnt = 0;
+        for (int ele : arr) {
+            if (ele != 0)
+                st.add(ele);
+            else zeroCnt += 1;
+        }
+        if (zeroCnt > 1) {
+            ArrayList<Integer> lst = new ArrayList<>();
+            lst.add(0); lst.add(0);
+            ans.add(lst);
+        }
+        if (st.isEmpty()) { // only zero elements in array
+            return ans;
+        }
+        
+        HashMap<Integer, Boolean> used = new HashMap<>();
+        for (int ele : arr) {
+            used.put(ele , false);
+        }
+        for (int i = 0 ; i < arr.length ; ++i) {
+            int ele = arr[i];
+            if (ele != 0 && !used.get(ele) && st.contains(-ele) && !used.get(-ele)) {
+                used.put(ele , true);
+                used.put(-ele , true);
+                if (-ele < ele)
+                    ans.add(new ArrayList<>(List.of(-ele, ele)));
+                else 
+                    ans.add(new ArrayList<>(List.of(ele, -ele)));
+            }
+        }
+        
+        ans.sort((row1 , row2) -> Integer.compare(row1.get(0) , row2.get(0)));
+        return ans;
     }
 }
+
+
+    
