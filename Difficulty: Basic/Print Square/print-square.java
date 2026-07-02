@@ -1,15 +1,22 @@
-// User function Template for Java
-class Solution {
-    public static void square(int s) {
-        // Complete the code given below
-                if(s == 1)
-            System.out.println("*");
-        else
-        {
-            System.out.println("* ".repeat(s));
-            for(int i=0; i<s-2; i++)
-                System.out.println("*" + "  ".repeat(s-2) + " *");
-            System.out.println("* ".repeat(s));
-        }
+import java.util.Scanner;
+
+class GFG {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        // code here
+          for(int i=1;i<=n;i++){
+              for(int j=1;j<=n;j++){
+                 if(i==1||i==n||j==1||j==n){
+                     System.out.print("* ");
+                 }
+                 else{
+                     System.out.print("  ");
+                 }
+              }
+              System.out.println();
+          }
+         
     }
 }
