@@ -1,7 +1,7 @@
 class Solution {
     public ArrayList<Integer> findMajority(int[] arr) {
-        // Code here
-           ArrayList<Integer> list= new ArrayList<> ();
+        // code here
+        ArrayList<Integer> list= new ArrayList<> ();
         HashMap<Integer,Integer> map= new HashMap<> ();
         HashSet<Integer> set= new HashSet<> ();
         for(int a :arr)
@@ -19,3 +19,6 @@ class Solution {
         return list;
     }
 }
+
+
+    
